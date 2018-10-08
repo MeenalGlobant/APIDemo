@@ -6,4 +6,5 @@
     <string name="text_http">HTTP URl Connection</string>
     <string name="text_volley">Volley Library</string>
     <string name="text_retrofit">Retrofit Library</string>
+    <string name="no_internet_msg">Please check your internet connectivity</string>
 </resources>

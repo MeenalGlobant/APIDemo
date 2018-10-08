@@ -12,7 +12,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.api.demo.R;
-import com.app.api.demo.Utils;
 import com.app.api.demo.adapter.WarDataAdapter;
 import com.app.api.demo.model.ModelWarDetails;
 
@@ -62,35 +61,38 @@ public class VolleyActivity extends BaseActivity {
     private void getWarData() {
 
         //JsonArrayRequest jsonArrayRequest = new JsonArrayRequest()
-
-        showProgressDialog();
-        JsonArrayRequest jsonRequest = new JsonArrayRequest
-                (Request.Method.GET, URL_STRING, null, new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        // the response is already constructed as a JSONObject!
-                        try {
-                            dismissProgressDialog();
-                            if (response != null) {
-                                parseJsonData(response);
-                            } else {
-                                Utils.showToast(R.string.error_msg, context);
+        if (isNetworkAvailable()) {
+            showProgressDialog();
+            JsonArrayRequest jsonRequest = new JsonArrayRequest
+                    (Request.Method.GET, URL_STRING, null, new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            // the response is already constructed as a JSONObject!
+                            try {
+                                dismissProgressDialog();
+                                if (response != null) {
+                                    parseJsonData(response);
+                                } else {
+                                    showToast(R.string.error_msg);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-                    }
-                }, new Response.ErrorListener() {
+                    }, new Response.ErrorListener() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        dismissProgressDialog();
-                        Utils.showToast(R.string.error_msg, context);
-                        error.printStackTrace();
-                    }
-                });
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            dismissProgressDialog();
+                            showToast(R.string.error_msg);
+                            error.printStackTrace();
+                        }
+                    });
 
-        requestQueue.add(jsonRequest);
+            requestQueue.add(jsonRequest);
+        } else {
+            showToast(R.string.no_internet_msg);
+        }
     }
 
     /**

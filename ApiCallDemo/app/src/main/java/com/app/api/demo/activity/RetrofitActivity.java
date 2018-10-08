@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.app.api.demo.R;
-import com.app.api.demo.Utils;
 import com.app.api.demo.adapter.WarDataAdapter;
 import com.app.api.demo.interfaces.GetDataService;
 import com.app.api.demo.model.ModelWarDetails;
@@ -49,33 +48,37 @@ public class RetrofitActivity extends BaseActivity {
     }
 
     private void getWarDatafromApi() {
-        showProgressDialog();
-        GetDataService getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<ModelWarDetails>> listCall = getDataService.getWarDataList();
-        listCall.enqueue(new Callback<List<ModelWarDetails>>() {
-            @Override
-            public void onResponse(Call<List<ModelWarDetails>> call, Response<List<ModelWarDetails>> response) {
-                dismissProgressDialog();
-                if (response.body() != null) {
-                    listWarDetails = response.body();
-                    //calling RecyclerViewAdapter constructor by passing context and list
-                    warDataAdapter = new WarDataAdapter(context, listWarDetails);
+        if (isNetworkAvailable()) {
+            showProgressDialog();
+            GetDataService getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+            Call<List<ModelWarDetails>> listCall = getDataService.getWarDataList();
+            listCall.enqueue(new Callback<List<ModelWarDetails>>() {
+                @Override
+                public void onResponse(Call<List<ModelWarDetails>> call, Response<List<ModelWarDetails>> response) {
+                    dismissProgressDialog();
+                    if (response.body() != null) {
+                        listWarDetails = response.body();
+                        //calling RecyclerViewAdapter constructor by passing context and list
+                        warDataAdapter = new WarDataAdapter(context, listWarDetails);
 
-                    //setting adapter on recyclerView
-                    rvHttp.setAdapter(warDataAdapter);
+                        //setting adapter on recyclerView
+                        rvHttp.setAdapter(warDataAdapter);
 
-                    // to notify adapter about changes in list data(if changes)
-                    warDataAdapter.notifyDataSetChanged();
-                } else {
-                    Utils.showToast(R.string.error_msg, context);
+                        // to notify adapter about changes in list data(if changes)
+                        warDataAdapter.notifyDataSetChanged();
+                    } else {
+                        showToast(R.string.error_msg);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<ModelWarDetails>> call, Throwable t) {
-                dismissProgressDialog();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<ModelWarDetails>> call, Throwable t) {
+                    dismissProgressDialog();
+                }
+            });
+        } else {
+            showToast(R.string.no_internet_msg);
+        }
 
     }
 }
