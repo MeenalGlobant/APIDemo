@@ -3,4 +3,7 @@
     <string name="progress_dialog_msg">Please wait. Fetching data..</string>
     <string name="connection_success_msg">Connection successful.</string>
     <string name="error_msg">Error in fetching data.</string>
+    <string name="text_http">HTTP URl Connection</string>
+    <string name="text_volley">Volley Library</string>
+    <string name="text_retrofit">Retrofit Library</string>
 </resources>

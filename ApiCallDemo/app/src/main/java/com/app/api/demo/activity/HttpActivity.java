@@ -25,7 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HttpActivity extends AppCompatActivity {
+public class HttpActivity extends BaseActivity {
 
     @BindView(R.id.rvHttp)
     RecyclerView rvHttp;
@@ -100,7 +100,7 @@ public class HttpActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Utils.showProgressDialog(context);
+            showProgressDialog();
         }
 
         @Override
@@ -115,7 +115,7 @@ public class HttpActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Utils.dismissProgressDialog();
+            dismissProgressDialog();
 
             if (response != null && !response.equals("")) {
                 Utils.showToast(R.string.connection_success_msg, context);
