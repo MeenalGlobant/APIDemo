@@ -3,7 +3,6 @@ package com.app.api.demo.activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -79,7 +78,7 @@ public class HttpActivity extends BaseActivity {
                 }
                 response = jsonResults.toString();
             } else {
-                Utils.showToast(R.string.error_msg, context);
+                showToast(R.string.error_msg);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,6 +107,9 @@ public class HttpActivity extends BaseActivity {
             /*
             creatingURLConnection is a function use to establish connection
             */
+            if (!isNetworkAvailable()) {
+                return null;
+            }
             response = creatingURLConnection(Utils.URL_STRING);
             return null;
         }
@@ -118,10 +120,10 @@ public class HttpActivity extends BaseActivity {
             dismissProgressDialog();
 
             if (response != null && !response.equals("")) {
-                Utils.showToast(R.string.connection_success_msg, context);
+                showToast(R.string.connection_success_msg);
                 parseJsonData(response);
             } else {
-                Utils.showToast(R.string.error_msg, context);
+                showToast(R.string.no_internet_msg);
             }
 
         }
