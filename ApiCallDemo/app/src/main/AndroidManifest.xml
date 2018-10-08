@@ -14,10 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.HttpActivity" />
-        <activity android:name=".activity.VolleyActivity">
+        <activity android:name=".activity.VolleyActivity" />
 
-        </activity>
-        <activity android:name=".activity.RetrofitActivity">
+        <activity android:name=".activity.RetrofitActivity" />
+
+        <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

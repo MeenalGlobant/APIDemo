@@ -1,6 +1,5 @@
 package com.app.api.demo.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,7 +28,7 @@ import butterknife.ButterKnife;
 
 import static com.app.api.demo.Utils.URL_STRING;
 
-public class VolleyActivity extends Activity {
+public class VolleyActivity extends BaseActivity {
 
     @BindView(R.id.rvHttp)
     RecyclerView rvHttp;
@@ -64,14 +63,14 @@ public class VolleyActivity extends Activity {
 
         //JsonArrayRequest jsonArrayRequest = new JsonArrayRequest()
 
-        Utils.showProgressDialog(context);
+        showProgressDialog();
         JsonArrayRequest jsonRequest = new JsonArrayRequest
                 (Request.Method.GET, URL_STRING, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         // the response is already constructed as a JSONObject!
                         try {
-                            Utils.dismissProgressDialog();
+                            dismissProgressDialog();
                             if (response != null) {
                                 parseJsonData(response);
                             } else {
@@ -85,7 +84,7 @@ public class VolleyActivity extends Activity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Utils.dismissProgressDialog();
+                        dismissProgressDialog();
                         Utils.showToast(R.string.error_msg, context);
                         error.printStackTrace();
                     }
@@ -107,7 +106,7 @@ public class VolleyActivity extends Activity {
 
             if (responseArray.length() > 0) {
 
-               /*Iterating JSON object from JSON Array one by one*/
+                /*Iterating JSON object from JSON Array one by one*/
 
                 for (int i = 0; i < responseArray.length(); i++) {
                     JSONObject battleObj = responseArray.getJSONObject(i);

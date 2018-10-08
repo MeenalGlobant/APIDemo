@@ -21,22 +21,5 @@ public class Utils {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
-    public static void showProgressDialog(Context context) {
 
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage(context.getString(R.string.progress_dialog_msg));
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setProgress(0);
-            progressDialog.show();
-        }
-    }
-
-    public static void dismissProgressDialog() {
-
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
 }

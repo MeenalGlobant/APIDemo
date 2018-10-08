@@ -1,6 +1,5 @@
 package com.app.api.demo.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RetrofitActivity extends Activity {
+public class RetrofitActivity extends BaseActivity {
 
     @BindView(R.id.rvHttp)
     RecyclerView rvHttp;
@@ -50,13 +49,13 @@ public class RetrofitActivity extends Activity {
     }
 
     private void getWarDatafromApi() {
-        Utils.showProgressDialog(context);
+        showProgressDialog();
         GetDataService getDataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<ModelWarDetails>> listCall = getDataService.getWarDataList();
         listCall.enqueue(new Callback<List<ModelWarDetails>>() {
             @Override
             public void onResponse(Call<List<ModelWarDetails>> call, Response<List<ModelWarDetails>> response) {
-                Utils.dismissProgressDialog();
+                dismissProgressDialog();
                 if (response.body() != null) {
                     listWarDetails = response.body();
                     //calling RecyclerViewAdapter constructor by passing context and list
@@ -74,7 +73,7 @@ public class RetrofitActivity extends Activity {
 
             @Override
             public void onFailure(Call<List<ModelWarDetails>> call, Throwable t) {
-                Utils.dismissProgressDialog();
+                dismissProgressDialog();
             }
         });
 
